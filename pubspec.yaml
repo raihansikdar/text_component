@@ -1,7 +1,7 @@
 name: text_component
 description: "A new Flutter package project."
 version: 0.0.1
-homepage:
+homepage: https://github.com/raihansikdar/text_component.git
 
 environment:
   sdk: ^3.5.4
