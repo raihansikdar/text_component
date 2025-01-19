@@ -50,8 +50,6 @@ class MyApp extends StatelessWidget {
   }
 }
 
-
-
 ```
 
 ## Applying Custom Styling
@@ -99,6 +97,9 @@ TextComponent(
 5. Included **additional information** about contributions, issues, and licensing.
 
 Let me know if you’d like me to further refine any part of this!
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](./LICENSE) file for more details.
 
 ```yaml
 dependencies:
