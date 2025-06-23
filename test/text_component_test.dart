@@ -11,9 +11,7 @@ void main() {
       // Act
       await tester.pumpWidget(
         const MaterialApp(
-          home: Scaffold(
-            body: TextComponent(text: testText),
-          ),
+          home: Scaffold(body: TextComponent(text: testText)),
         ),
       );
 
@@ -70,10 +68,7 @@ void main() {
           home: Scaffold(
             body: SizedBox(
               width: 100,
-              child: TextComponent(
-                text: testText,
-                overflow: overflowBehavior,
-              ),
+              child: TextComponent(text: testText, overflow: overflowBehavior),
             ),
           ),
         ),

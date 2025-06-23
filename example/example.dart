@@ -32,9 +32,7 @@ class ExampleScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            TextComponent(
-              text: 'Simple Text',
-            ),
+            TextComponent(text: 'Simple Text'),
             SizedBox(height: 12),
             TextComponent(
               text: 'Bold & Larger Text',
@@ -55,7 +53,8 @@ class ExampleScreen extends StatelessWidget {
             ),
             SizedBox(height: 12),
             TextComponent(
-              text: 'Max 1 line with ellipsis overflow. This is too long to fit in a single line.',
+              text:
+                  'Max 1 line with ellipsis overflow. This is too long to fit in a single line.',
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
             ),
