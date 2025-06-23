@@ -12,9 +12,22 @@
 - **Accessibility**: Includes properties for `locale`, `semanticsLabel`, and `textDirection`.
 - **Rich Text Styling**: Supports advanced text styles like `decorationThickness`, `leadingDistribution`, and `fontVariations`.
 
-## Getting Started
+## 📦 Installation
 
-To use this package, add `text_component` as a dependency in your `pubspec.yaml` file:
+Add this to your `pubspec.yaml`:
+
+```yaml
+dependencies:
+  text_component: ^1.0.0
+
+```
+
+## 🧩 Getting Started
+Simply import the package in your Dart file:
+```
+import 'package:text_component/text_component.dart';
+
+```
 
 
 
@@ -96,11 +109,14 @@ TextComponent(
 4. Added **code snippets** to demonstrate usage.
 5. Included **additional information** about contributions, issues, and licensing.
 
-Let me know if you’d like me to further refine any part of this!
+
 ## License
+This project is licensed under the MIT License. See the LICENSE file for more details.
 
-This project is licensed under the MIT License. See the [LICENSE](./LICENSE) file for more details.
+```text
+MIT License
 
-```yaml
-dependencies:
-  text_component: ^1.0.0
+Copyright (c) 2025 Raihan Sikdar
+
+Permission is hereby granted, free of charge, to any person obtaining a copy...
+
