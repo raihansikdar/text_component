@@ -78,5 +78,29 @@ void main() {
       final textWidget = tester.widget<Text>(find.textContaining('This'));
       expect(textWidget.overflow, overflowBehavior);
     });
+
+    testWidgets('uses optimal text wrapper when enabled', (
+      WidgetTester tester,
+    ) async {
+      // Arrange
+      const testText = 'Optimal text wrapping example';
+
+      // Act
+      await tester.pumpWidget(
+        const MaterialApp(
+          home: Scaffold(
+            body: SizedBox(
+              width: 200,
+              child: TextComponent(text: testText, makeOptimalText: true),
+            ),
+          ),
+        ),
+      );
+
+      // Assert
+      expect(find.text(testText), findsOneWidget);
+      expect(find.byType(Align), findsOneWidget);
+      expect(find.byType(SizedBox), findsAtLeastNWidgets(1));
+    });
   });
 }
