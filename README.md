@@ -169,13 +169,21 @@ TextComponent(
 5. Included **additional information** about contributions, issues, and licensing.
 
 
-## License
-This project is licensed under the MIT License. See the LICENSE file for more details.
 
-```text
-MIT License
 
-Copyright (c) 2025 Raihan Sikdar
 
-Permission is hereby granted, free of charge, to any person obtaining a copy...
+
+##  👨‍💻 Author
+**Raihan Sikdar**
+
+Website: [raihansikdar.com](https://raihansikdar.com)  
+Email: raihansikdar10@gmail.com  
+GitHub: [raihansikdar](https://github.com/raihansikdar)  
+LinkedIn: [raihansikdar](https://www.linkedin.com/in/raihansikdar/)
+
+
+## 📜 License
+This package is licensed under the [MIT License](https://github.com/raihansikdar/text_component/blob/main/LICENSE).
+
+
 
