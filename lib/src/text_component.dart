@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'optimal_wrapper/optimal_wrap_text.dart';
+import 'optimised_text/optimised_text.dart';
 
 class TextComponent extends StatelessWidget {
   const TextComponent({
@@ -45,7 +45,8 @@ class TextComponent extends StatelessWidget {
     /// NEW
     this.maxLength,
     this.showEllipsis = true,
-    this.makeOptimalText = false,
+    this.optimisedText = false,
+    this.width,
   });
 
   final String text;
@@ -88,7 +89,14 @@ class TextComponent extends StatelessWidget {
   /// NEW
   final int? maxLength;
   final bool showEllipsis;
-  final bool makeOptimalText;
+
+  /// When true, the text is laid out with [OptimisedText] so multi-line
+  /// text wraps at a balanced width instead of leaving a short last line.
+  final bool optimisedText;
+
+  /// Optional fixed width for [optimisedText] in places where LayoutBuilder
+  /// cannot measure (e.g. inside SliverFillRemaining).
+  final double? width;
 
   String get limitedText {
     if (maxLength == null) return text;
@@ -102,40 +110,41 @@ class TextComponent extends StatelessWidget {
         : text.substring(0, maxLength!);
   }
 
+  TextStyle get _effectiveStyle => TextStyle(
+        color: color,
+        backgroundColor: backgroundColor,
+        fontSize: fontSize ?? 16,
+        fontWeight: fontWeight ?? FontWeight.w500,
+        fontStyle: fontStyle,
+        letterSpacing: letterSpacing,
+        wordSpacing: wordSpacing,
+        textBaseline: textBaseline,
+        height: height,
+        leadingDistribution: leadingDistribution,
+        foreground: foreground,
+        background: background,
+        shadows: shadows,
+        fontFeatures: fontFeatures,
+        fontVariations: fontVariations,
+        decoration: decoration,
+        decorationColor: decorationColor,
+        decorationStyle: decorationStyle,
+        decorationThickness: decorationThickness,
+        debugLabel: debugLabel,
+        fontFamily: fontFamily,
+        fontFamilyFallback: fontFamilyFallback,
+        package: package,
+      );
+
   @override
   Widget build(BuildContext context) {
-    final style = TextStyle(
-      color: color,
-      backgroundColor: backgroundColor,
-      fontSize: fontSize ?? 16,
-      fontWeight: fontWeight ?? FontWeight.w500,
-      fontStyle: fontStyle,
-      letterSpacing: letterSpacing,
-      wordSpacing: wordSpacing,
-      textBaseline: textBaseline,
-      height: height,
-      leadingDistribution: leadingDistribution,
-      foreground: foreground,
-      background: background,
-      shadows: shadows,
-      fontFeatures: fontFeatures,
-      fontVariations: fontVariations,
-      decoration: decoration,
-      decorationColor: decorationColor,
-      decorationStyle: decorationStyle,
-      decorationThickness: decorationThickness,
-      debugLabel: debugLabel,
-      fontFamily: fontFamily,
-      fontFamilyFallback: fontFamilyFallback,
-      package: package,
-    );
-
-    if (makeOptimalText) {
-      return OptimalWrapText(
+    if (optimisedText) {
+      return OptimisedText(
         limitedText,
-        maxLines: maxLines ?? 1,
-        textAlign: textAlign,
-        overflow: overflow ?? TextOverflow.ellipsis,
+        width: width,
+        maxLines: maxLines,
+        textAlign: textAlign ?? TextAlign.center,
+        overflow: overflow,
         strutStyle: strutStyle,
         textDirection: textDirection,
         softWrap: softWrap,
@@ -145,7 +154,7 @@ class TextComponent extends StatelessWidget {
         textWidthBasis: textWidthBasis,
         textHeightBehavior: textHeightBehavior,
         selectionColor: selectionColor,
-        style: style,
+        style: _effectiveStyle,
       );
     }
 
@@ -163,8 +172,7 @@ class TextComponent extends StatelessWidget {
       textWidthBasis: textWidthBasis,
       textHeightBehavior: textHeightBehavior,
       selectionColor: selectionColor,
-
-      style: style,
+      style: _effectiveStyle,
     );
   }
 }

@@ -8,6 +8,8 @@
     - `color`, `fontSize`, `fontWeight`, `fontStyle`
     - `letterSpacing`, `wordSpacing`, `shadows`, and `decoration`
 - **Text Overflow Handling**: Easily manage text overflow with options like `ellipsis`, `fade`, or `clip`.
+- **Optimised Text Wrapping**: Enable `optimisedText` to wrap multi-line text at a balanced width, avoiding an awkward short last line.
+- **Max Length**: Limit text to a character count with `maxLength`, with an optional trailing ellipsis via `showEllipsis`.
 - **Responsive Design**: Built-in `textScalar` support for responsive text scaling.
 - **Accessibility**: Includes properties for `locale`, `semanticsLabel`, and `textDirection`.
 - **Rich Text Styling**: Supports advanced text styles like `decorationThickness`, `leadingDistribution`, and `fontVariations`.
@@ -18,7 +20,7 @@ Add this to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  text_component: ^1.0.0
+  text_component: ^2.0.0
 
 ```
 
@@ -86,6 +88,63 @@ TextComponent(
   overflow: TextOverflow.ellipsis,
 );
 ```
+## Optimised Text Wrapping
+
+By default, Flutter wraps text greedily, which can leave a short "orphan" word
+on the last line:
+
+```text
+This sentence is long enough to wrap onto two
+lines
+```
+
+Set `optimisedText: true` and `TextComponent` measures the text and shrinks the
+box to a balanced width, so the lines break evenly:
+
+```text
+This sentence is long enough
+to wrap onto two lines
+```
+
+```
+TextComponent(
+  text: 'This sentence is long enough to wrap onto two lines',
+  optimisedText: true,
+);
+```
+
+When `optimisedText` is enabled, `textAlign` defaults to `TextAlign.center`.
+Pass your own `textAlign` to override it.
+
+In places where the available width cannot be measured with a `LayoutBuilder`
+(for example inside `SliverFillRemaining`), provide a fixed `width`:
+
+```
+TextComponent(
+  text: 'Balanced text inside a sliver',
+  optimisedText: true,
+  width: 300,
+);
+```
+
+## Limiting Text Length
+
+Use `maxLength` to cap the number of characters. An ellipsis is appended by
+default; set `showEllipsis: false` to truncate silently:
+
+```
+TextComponent(
+  text: 'This text is longer than ten characters',
+  maxLength: 10,            // renders: "This text ..."
+);
+
+TextComponent(
+  text: 'This text is longer than ten characters',
+  maxLength: 10,
+  showEllipsis: false,      // renders: "This text "
+);
+```
+
 ## Adding Shadows
 ```
  TextComponent(

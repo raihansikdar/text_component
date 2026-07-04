@@ -2,15 +2,13 @@
 
 import 'package:flutter/material.dart';
 
-import 'utils/find_optimal_text_painter_width.dart';
+import 'utils/find_optimised_text_painter_width.dart';
 import 'utils/text_align_to_alignment.dart';
 
-final class OptimalWrapTextForWidth extends StatelessWidget {
+final class OptimisedTextForWidth extends StatelessWidget {
   final double width;
   final String text;
   final TextStyle? style;
-  final int? maxLines;
-  final TextOverflow? overflow;
   final StrutStyle? strutStyle;
   final TextAlign? textAlign;
   final TextDirection? textDirection;
@@ -21,14 +19,14 @@ final class OptimalWrapTextForWidth extends StatelessWidget {
   final TextWidthBasis? textWidthBasis;
   final TextHeightBehavior? textHeightBehavior;
   final Color? selectionColor;
+  final int? maxLines;
+  final TextOverflow? overflow;
 
-  const OptimalWrapTextForWidth(
+  const OptimisedTextForWidth(
     this.text, {
     super.key,
     required this.width,
     this.style,
-    this.maxLines,
-    this.overflow,
     this.strutStyle,
     this.textAlign,
     this.textDirection,
@@ -39,6 +37,8 @@ final class OptimalWrapTextForWidth extends StatelessWidget {
     this.textWidthBasis,
     this.textHeightBehavior,
     this.selectionColor,
+    this.maxLines,
+    this.overflow,
   });
 
   @override
@@ -59,21 +59,22 @@ final class OptimalWrapTextForWidth extends StatelessWidget {
       textHeightBehavior:
           textHeightBehavior ?? DefaultTextHeightBehavior.maybeOf(context),
       maxLines: maxLines,
-      ellipsis: overflow == TextOverflow.ellipsis ? '\u2026' : null,
     )..layout(maxWidth: width);
 
-    final optimalWidth = findOptimalTextPainterWidth(painter);
+    // When the text already overflows maxLines at the full width, shrinking
+    // further would only cut off more text, so keep the full width.
+    final optimisedWidth = painter.didExceedMaxLines
+        ? width
+        : findOptimisedTextPainterWidth(painter);
     painter.dispose();
 
     return Align(
       alignment: effectiveTextAlign.toAlignment(effectiveTextDirection),
       child: SizedBox(
-        width: optimalWidth,
+        width: optimisedWidth,
         child: Text(
           text,
           style: style,
-          maxLines: maxLines,
-          overflow: overflow,
           strutStyle: strutStyle,
           textAlign: textAlign,
           textDirection: textDirection,
@@ -84,6 +85,8 @@ final class OptimalWrapTextForWidth extends StatelessWidget {
           textWidthBasis: textWidthBasis,
           textHeightBehavior: textHeightBehavior,
           selectionColor: selectionColor,
+          maxLines: maxLines,
+          overflow: overflow,
         ),
       ),
     );

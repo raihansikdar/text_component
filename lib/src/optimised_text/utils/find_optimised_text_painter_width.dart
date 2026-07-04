@@ -1,6 +1,6 @@
 import 'package:flutter/painting.dart';
 
-double findOptimalTextPainterWidth(TextPainter painter) {
+double findOptimisedTextPainterWidth(TextPainter painter) {
   final height = painter.height;
 
   var left = 0.0;
@@ -13,7 +13,9 @@ double findOptimalTextPainterWidth(TextPainter painter) {
 
     painter.layout(maxWidth: mid);
 
-    if (painter.height <= height) {
+    // didExceedMaxLines guards painters with maxLines: their height stays
+    // clamped while text gets cut off, which would fool the height check.
+    if (painter.height <= height && !painter.didExceedMaxLines) {
       best = mid;
       right = mid;
     } else {

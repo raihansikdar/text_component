@@ -1,6 +1,6 @@
 name: text_component
 description: "A customizable Flutter widget for displaying text with advanced styling options such as font size, color, decoration, and more."
-version: 1.0.0
+version: 2.0.0
 homepage: https://github.com/raihansikdar/text_component.git
 
 environment:

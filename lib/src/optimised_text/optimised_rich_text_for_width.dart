@@ -2,10 +2,10 @@
 
 import 'package:flutter/material.dart';
 
-import 'utils/find_optimal_text_painter_width.dart';
+import 'utils/find_optimised_text_painter_width.dart';
 import 'utils/text_align_to_alignment.dart';
 
-final class OptimalWrapRichTextForWidth extends StatelessWidget {
+final class OptimisedRichTextForWidth extends StatelessWidget {
   final double width;
   final InlineSpan text;
   final TextStyle? style;
@@ -20,7 +20,7 @@ final class OptimalWrapRichTextForWidth extends StatelessWidget {
   final TextHeightBehavior? textHeightBehavior;
   final Color? selectionColor;
 
-  const OptimalWrapRichTextForWidth(
+  const OptimisedRichTextForWidth(
     this.text, {
     super.key,
     required this.width,
@@ -58,13 +58,13 @@ final class OptimalWrapRichTextForWidth extends StatelessWidget {
           textHeightBehavior ?? DefaultTextHeightBehavior.maybeOf(context),
     )..layout(maxWidth: width);
 
-    final optimalWidth = findOptimalTextPainterWidth(painter);
+    final optimisedWidth = findOptimisedTextPainterWidth(painter);
     painter.dispose();
 
     return Align(
       alignment: effectiveTextAlign.toAlignment(effectiveTextDirection),
       child: SizedBox(
-        width: optimalWidth,
+        width: optimisedWidth,
         child: Text.rich(
           text,
           style: style,

@@ -27,7 +27,7 @@ class ExampleScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('TextComponent Demo')),
-      body: const Padding(
+      body: const SingleChildScrollView(
         padding: EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -57,6 +57,37 @@ class ExampleScreen extends StatelessWidget {
                   'Max 1 line with ellipsis overflow. This is too long to fit in a single line.',
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
+            ),
+            SizedBox(height: 12),
+            // Optimised text wrapping: multi-line text wraps at a balanced
+            // width instead of leaving a short last line.
+            TextComponent(
+              text:
+                  'Optimised wrapping keeps multi-line text balanced instead of leaving one short word on the last line.',
+              optimisedText: true,
+              maxLines: 3,
+            ),
+            SizedBox(height: 12),
+            // Optimised wrapping with a fixed width, for places where
+            // LayoutBuilder cannot measure (e.g. inside SliverFillRemaining).
+            TextComponent(
+              text: 'Optimised wrapping with a fixed width of 250 pixels.',
+              optimisedText: true,
+              width: 250,
+              maxLines: 2,
+            ),
+            SizedBox(height: 12),
+            // maxLength truncates by character count; showEllipsis controls
+            // the trailing "..." (enabled by default).
+            TextComponent(
+              text: 'This text is limited to twenty characters by maxLength.',
+              maxLength: 20,
+            ),
+            SizedBox(height: 12),
+            TextComponent(
+              text: 'This text is limited to twenty characters, no ellipsis.',
+              maxLength: 20,
+              showEllipsis: false,
             ),
           ],
         ),

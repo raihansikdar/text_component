@@ -1,63 +1,55 @@
 import 'package:flutter/material.dart';
 
-import 'optimal_wrap_text_for_width.dart';
+import 'optimised_rich_text_for_width.dart';
 
-/// A widget that wraps text optimally.
-final class OptimalWrapText extends StatelessWidget {
+/// A widget that wraps rich text optimally.
+final class OptimisedRichText extends StatelessWidget {
   /// Provide the width for edge cases where LayoutBuilder cannot be used.
-  /// Such as inside SliverFillRemaining
+  /// Such as inside SliverFillRemaining.
   final double? width;
 
-  /// See equivalent property in [Text]
-  final String text;
+  /// See equivalent property in [Text.rich].
+  final InlineSpan text;
 
-  /// See equivalent property in [Text]
+  /// See equivalent property in [Text.rich].
   final TextStyle? style;
 
-  /// See equivalent property in [Text]
-  final int? maxLines;
-
-  /// See equivalent property in [Text]
-  final TextOverflow? overflow;
-
-  /// See equivalent property in [Text]
+  /// See equivalent property in [Text.rich].
   final StrutStyle? strutStyle;
 
-  /// See equivalent property in [Text]
+  /// See equivalent property in [Text.rich].
   final TextAlign? textAlign;
 
-  /// See equivalent property in [Text]
+  /// See equivalent property in [Text.rich].
   final TextDirection? textDirection;
 
-  /// See equivalent property in [Text]
+  /// See equivalent property in [Text.rich].
   final Locale? locale;
 
-  /// See equivalent property in [Text]
+  /// See equivalent property in [Text.rich].
   final bool? softWrap;
 
-  /// See equivalent property in [Text]
+  /// See equivalent property in [Text.rich].
   final TextScaler? textScaler;
 
-  /// See equivalent property in [Text]
+  /// See equivalent property in [Text.rich].
   final String? semanticsLabel;
 
-  /// See equivalent property in [Text]
+  /// See equivalent property in [Text.rich].
   final TextWidthBasis? textWidthBasis;
 
-  /// See equivalent property in [Text]
+  /// See equivalent property in [Text.rich].
   final TextHeightBehavior? textHeightBehavior;
 
-  /// See equivalent property in [Text]
+  /// See equivalent property in [Text.rich].
   final Color? selectionColor;
 
-  /// Creates a widget that wraps text optimally.
-  const OptimalWrapText(
+  /// Creates a widget that wraps rich text optimally.
+  const OptimisedRichText(
     this.text, {
     super.key,
     this.width,
     this.style,
-    this.maxLines,
-    this.overflow,
     this.strutStyle,
     this.textAlign,
     this.textDirection,
@@ -73,12 +65,10 @@ final class OptimalWrapText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (width != null) {
-      return OptimalWrapTextForWidth(
+      return OptimisedRichTextForWidth(
         text,
         width: width!,
         style: style,
-        maxLines: maxLines,
-        overflow: overflow,
         strutStyle: strutStyle,
         textAlign: textAlign,
         textDirection: textDirection,
@@ -94,12 +84,10 @@ final class OptimalWrapText extends StatelessWidget {
 
     return LayoutBuilder(
       builder: (context, constraints) {
-        return OptimalWrapTextForWidth(
+        return OptimisedRichTextForWidth(
           text,
           width: constraints.maxWidth,
           style: style,
-          maxLines: maxLines,
-          overflow: overflow,
           strutStyle: strutStyle,
           textAlign: textAlign,
           textDirection: textDirection,

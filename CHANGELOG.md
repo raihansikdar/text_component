@@ -1,11 +1,30 @@
-## 1.0.0
-
 # Changelog
 
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/),  
 and this project adheres to [Semantic Versioning](https://semver.org/).
+
+## [2.0.0] - 2026-07-04
+### Added
+- **Optimised text wrapping**: new `optimisedText` parameter on `TextComponent`.
+  When enabled, multi-line text wraps at a balanced width instead of leaving a
+  short last line.
+- New `width` parameter to provide a fixed width for optimised wrapping in
+  places where `LayoutBuilder` cannot measure (e.g. inside `SliverFillRemaining`).
+- New `OptimisedText`, `OptimisedRichText`, `OptimisedTextForWidth`, and
+  `OptimisedRichTextForWidth` widgets powering the feature.
+- `maxLength` parameter to limit text to a character count, with `showEllipsis`
+  to control the trailing ellipsis.
+- Widget tests covering optimised wrapping, fixed width, `textAlign` default,
+  and `maxLength` truncation.
+
+### Changed
+- **BREAKING**: renamed the `optimalWrap` parameter to `optimisedText`, and the
+  `optimal_wrapper` source folder / `OptimalWrap*` widgets to `optimised_text` /
+  `Optimised*`.
+- When `optimisedText` is enabled, `textAlign` defaults to `TextAlign.center`.
+- Documented the optimised text wrapping and `maxLength` features in the README.
 
 ## [1.0.0] - YYYY-MM-DD
 ### Added

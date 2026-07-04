@@ -79,11 +79,55 @@ void main() {
       expect(textWidget.overflow, overflowBehavior);
     });
 
-    testWidgets('uses optimal text wrapper when enabled', (
+    testWidgets('truncates text with maxLength and shows ellipsis', (
       WidgetTester tester,
     ) async {
       // Arrange
-      const testText = 'Optimal text wrapping example';
+      const testText = 'This text is longer than ten characters';
+
+      // Act
+      await tester.pumpWidget(
+        const MaterialApp(
+          home: Scaffold(
+            body: TextComponent(text: testText, maxLength: 10),
+          ),
+        ),
+      );
+
+      // Assert
+      expect(find.text('This text ...'), findsOneWidget);
+    });
+
+    testWidgets('truncates text with maxLength without ellipsis', (
+      WidgetTester tester,
+    ) async {
+      // Arrange
+      const testText = 'This text is longer than ten characters';
+
+      // Act
+      await tester.pumpWidget(
+        const MaterialApp(
+          home: Scaffold(
+            body: TextComponent(
+              text: testText,
+              maxLength: 10,
+              showEllipsis: false,
+            ),
+          ),
+        ),
+      );
+
+      // Assert
+      expect(find.text('This text '), findsOneWidget);
+    });
+  });
+
+  group('Optimised text feature', () {
+    testWidgets('uses optimised text when enabled', (
+      WidgetTester tester,
+    ) async {
+      // Arrange
+      const testText = 'Optimised text wrapping example';
 
       // Act
       await tester.pumpWidget(
@@ -91,7 +135,7 @@ void main() {
           home: Scaffold(
             body: SizedBox(
               width: 200,
-              child: TextComponent(text: testText, makeOptimalText: true),
+              child: TextComponent(text: testText, optimisedText: true),
             ),
           ),
         ),
@@ -101,6 +145,147 @@ void main() {
       expect(find.text(testText), findsOneWidget);
       expect(find.byType(Align), findsOneWidget);
       expect(find.byType(SizedBox), findsAtLeastNWidgets(1));
+    });
+
+    testWidgets('wraps multi-line text at a balanced width', (
+      WidgetTester tester,
+    ) async {
+      // Arrange
+      const testText = 'This sentence is long enough to wrap onto two lines';
+
+      // Act
+      await tester.pumpWidget(
+        const MaterialApp(
+          home: Scaffold(
+            body: SizedBox(
+              width: 300,
+              child: TextComponent(text: testText, optimisedText: true),
+            ),
+          ),
+        ),
+      );
+
+      // Assert: the text box is narrower than the available width, so the
+      // lines are balanced instead of leaving a short last line.
+      final SizedBox sizedBox = tester.widget<SizedBox>(
+        find.descendant(
+          of: find.byType(Align),
+          matching: find.byType(SizedBox),
+        ),
+      );
+      expect(sizedBox.width, lessThan(300.0));
+      expect(find.text(testText), findsOneWidget);
+    });
+
+    testWidgets('uses the provided fixed width instead of LayoutBuilder', (
+      WidgetTester tester,
+    ) async {
+      // Arrange
+      const testText = 'Fixed width optimised text';
+
+      // Act
+      await tester.pumpWidget(
+        const MaterialApp(
+          home: Scaffold(
+            body: TextComponent(
+              text: testText,
+              optimisedText: true,
+              width: 150,
+            ),
+          ),
+        ),
+      );
+
+      // Assert
+      expect(find.byType(LayoutBuilder), findsNothing);
+      final SizedBox sizedBox = tester.widget<SizedBox>(
+        find.descendant(
+          of: find.byType(Align),
+          matching: find.byType(SizedBox),
+        ),
+      );
+      expect(sizedBox.width, lessThanOrEqualTo(150.0));
+      expect(find.text(testText), findsOneWidget);
+    });
+
+    testWidgets('defaults textAlign to center', (WidgetTester tester) async {
+      // Arrange
+      const testText = 'Centered optimised text';
+
+      // Act
+      await tester.pumpWidget(
+        const MaterialApp(
+          home: Scaffold(
+            body: SizedBox(
+              width: 200,
+              child: TextComponent(text: testText, optimisedText: true),
+            ),
+          ),
+        ),
+      );
+
+      // Assert
+      final textWidget = tester.widget<Text>(find.text(testText));
+      expect(textWidget.textAlign, TextAlign.center);
+    });
+
+    testWidgets('applies maxLength truncation before optimising', (
+      WidgetTester tester,
+    ) async {
+      // Arrange
+      const testText = 'This text is longer than ten characters';
+
+      // Act
+      await tester.pumpWidget(
+        const MaterialApp(
+          home: Scaffold(
+            body: SizedBox(
+              width: 200,
+              child: TextComponent(
+                text: testText,
+                optimisedText: true,
+                maxLength: 10,
+              ),
+            ),
+          ),
+        ),
+      );
+
+      // Assert
+      expect(find.text('This text ...'), findsOneWidget);
+    });
+
+    testWidgets('optimised text does not make overflowing single-line text invisible', (
+      WidgetTester tester,
+    ) async {
+      // Arrange
+      const testText =
+          'You have pushed the button this many times: You have pushed the button this many times';
+
+      // Act
+      await tester.pumpWidget(
+        const MaterialApp(
+          home: Scaffold(
+            body: SizedBox(
+              width: 100,
+              child: TextComponent(
+                text: testText,
+                optimisedText: true,
+                maxLines: 1,
+              ),
+            ),
+          ),
+        ),
+      );
+
+      // Assert
+      final SizedBox sizedBox = tester.widget<SizedBox>(
+        find.descendant(
+          of: find.byType(Align),
+          matching: find.byType(SizedBox),
+        ),
+      );
+      expect(sizedBox.width, equals(100.0));
     });
   });
 }
